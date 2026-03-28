@@ -1,63 +1,57 @@
-import { Shield, ArrowUpRight, Building2, ChevronDown, Info } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import Icon from "@/components/ui/icon"
+
+const shows = [
+  { city: "МОСКВА", venue: "Aglomerat", date: "12 АПР 2026", countdown: "015 ДНЕЙ", status: "ИНЦИДЕНТ" },
+  { city: "САНКТ-ПЕТЕРБУРГ", venue: "Zal Ozhidaniya", date: "19 АПР 2026", countdown: "022 ДНЯ", status: "РИТУАЛ" },
+  { city: "ЕКАТЕРИНБУРГ", venue: "Tele-Club", date: "03 МАЯ 2026", countdown: "036 ДНЕЙ", status: "РИТУАЛ" },
+  { city: "НОВОСИБИРСК", venue: "Podzemka", date: "10 МАЯ 2026", countdown: "043 ДНЯ", status: "ОЖИДАНИЕ" },
+]
 
 export function PaymentRolesCard() {
   return (
-    <div className="rounded-2xl bg-[#141414] border border-[#262626] p-6 flex flex-col">
-      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[#1f1f1f] border border-[#2a2a2a]">
-        <Shield className="h-5 w-5 text-gray-400" />
+    <div className="card-obsidian rounded-none p-6 flex flex-col">
+      <div className="mb-6 flex h-12 w-12 items-center justify-center border border-[rgba(155,48,255,0.3)]"
+        style={{ boxShadow: "0 0 15px rgba(155,48,255,0.15)" }}>
+        <Icon name="MapPin" size={18} className="text-gray-400" />
       </div>
 
-      <h3 className="mb-2 text-lg font-semibold text-white">Управление правами доступа</h3>
-      <p className="mb-4 text-sm text-gray-400">Устанавливайте лимиты, согласования и распределяйте права по команде</p>
+      <div className="font-mono-tech text-xs tracking-widest mb-2" style={{ color: "var(--accent-color)" }}>
+        // INCIDENT_LOG
+      </div>
+      <h3 className="mb-2 font-display text-xl font-bold text-white">Афиша</h3>
+      <p className="mb-4 font-mono-tech text-xs text-gray-600 leading-relaxed">
+        Список предстоящих ритуалов. Обратный отсчёт до вторжения.
+      </p>
 
-      <a href="#" className="mb-6 inline-flex items-center text-sm text-gray-400 hover:text-white transition-colors">
-        Подробнее <ArrowUpRight className="ml-1 h-4 w-4" />
+      <a href="#" className="mb-6 inline-flex items-center font-mono-tech text-xs text-gray-600 hover:text-white transition-colors tracking-widest">
+        ВСЕ ИНЦИДЕНТЫ <Icon name="ArrowUpRight" size={12} className="ml-1" />
       </a>
 
-      <div className="mt-auto space-y-4 rounded-xl bg-[#1a1a1a] border border-[#262626] p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10">
-              <AvatarImage src="/professional-man-portrait.png" alt="Алексей Петров" />
-              <AvatarFallback className="bg-gray-600 text-white">АП</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-medium text-white">Алексей Петров</p>
-              <p className="text-xs text-gray-500">alexey@finpotok.ru</p>
-            </div>
-          </div>
-          <button className="text-sm text-violet-400 hover:text-violet-300">Изменить</button>
-        </div>
-
-        <div>
-          <label className="mb-2 flex items-center gap-1 text-xs text-gray-400">
-            Способ оплаты <Info className="h-3 w-3" />
-          </label>
-          <div className="flex items-center justify-between rounded-lg bg-[#0f0f0f] border border-[#262626] px-3 py-2.5">
-            <span className="text-sm text-white">Банковский перевод</span>
-            <ChevronDown className="h-4 w-4 text-gray-500" />
-          </div>
-          <p className="mt-1 text-xs text-gray-500">Перевод в тот же день, без комиссии.</p>
-        </div>
-
-        <div className="border-t border-dashed border-[#333] pt-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0f0f0f] border border-[#262626]">
-                <Building2 className="h-5 w-5 text-gray-500" />
-              </div>
+      <div className="mt-auto space-y-2 border border-[rgba(155,48,255,0.1)] p-3 bg-[#070707]">
+        {shows.map((show, index) => (
+          <div key={index} className="group bg-[#0d0d0d] px-3 py-3 hover:bg-[rgba(155,48,255,0.05)] transition-colors cursor-pointer">
+            <div className="flex items-start justify-between mb-1">
               <div>
-                <p className="text-sm font-medium text-white">ООО «Финансовый Партнёр»</p>
-                <p className="text-xs text-gray-500">Счёт ••9876 · БИК ••5432</p>
+                <div className="flex items-center gap-2">
+                  <span className="font-mono-tech text-xs text-white tracking-widest">{show.city}</span>
+                  <span className="font-mono-tech text-xs text-gray-600">·</span>
+                  <span className="font-mono-tech text-xs text-gray-500">{show.venue}</span>
+                </div>
+                <span className="font-mono-tech text-xs text-gray-700">{show.date}</span>
+              </div>
+              <div className="text-right">
+                <div className="font-mono-tech text-xs" style={{ color: "var(--accent-color)" }}>
+                  -{show.countdown}
+                </div>
+                <div className="font-mono-tech text-[10px] text-gray-700 mt-0.5">{show.status}</div>
               </div>
             </div>
-            <button className="text-sm text-violet-400 hover:text-violet-300">Изменить</button>
           </div>
-        </div>
+        ))}
 
-        <Button className="w-full bg-[#252525] text-gray-400 hover:bg-[#2a2a2a] hover:text-white">Продолжить</Button>
+        <button className="w-full mt-2 py-2 font-mono-tech text-xs tracking-widest text-gray-600 hover:text-white border border-dashed border-[rgba(155,48,255,0.15)] hover:border-[rgba(155,48,255,0.4)] transition-all duration-300">
+          + КУПИТЬ БИЛЕТ
+        </button>
       </div>
     </div>
   )

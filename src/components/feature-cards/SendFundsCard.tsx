@@ -1,63 +1,112 @@
-import { Zap, Building2, ChevronDown, Info } from "lucide-react"
-import { Switch } from "@/components/ui/switch"
-import { ArrowUpRight } from "lucide-react"
+import { useState } from "react"
+import Icon from "@/components/ui/icon"
+
+const playlist = [
+  { title: "ТЁМНАЯ МАТЕРИЯ", duration: "4:12" },
+  { title: "ГЛИТЧ-РИТУАЛ", duration: "3:58" },
+  { title: "ОБСИДИАНОВЫЙ ТРОН", duration: "5:03" },
+]
 
 export function SendFundsCard() {
+  const [playing, setPlaying] = useState(false)
+  const [activeTrack, setActiveTrack] = useState(0)
+  const [progress, setProgress] = useState(37)
+
   return (
-    <div className="rounded-2xl bg-[#141414] border border-[#262626] p-6 flex flex-col">
-      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[#1f1f1f] border border-[#2a2a2a]">
-        <Zap className="h-5 w-5 text-gray-400" />
+    <div className="card-obsidian rounded-none p-6 flex flex-col">
+      <div className="mb-6 flex h-12 w-12 items-center justify-center border border-[rgba(155,48,255,0.3)]"
+        style={{ boxShadow: "0 0 15px rgba(155,48,255,0.15)" }}>
+        <Icon name="Music2" size={18} className="text-gray-400" />
       </div>
 
-      <h3 className="mb-2 text-lg font-semibold text-white">Мгновенные переводы</h3>
-      <p className="mb-4 text-sm text-gray-400">Платите клиентам, партнёрам и поставщикам за секунды без задержек</p>
+      <div className="font-mono-tech text-xs tracking-widest mb-2" style={{ color: "var(--accent-color)" }}>
+        // AUDIO_TERMINAL
+      </div>
+      <h3 className="mb-2 font-display text-xl font-bold text-white">Плеер</h3>
+      <p className="mb-4 font-mono-tech text-xs text-gray-600 leading-relaxed">
+        Минималистичный терминал. Острые пики — как кардиограмма во тьме.
+      </p>
 
-      <a href="#" className="mb-6 inline-flex items-center text-sm text-gray-400 hover:text-white transition-colors">
-        Подробнее <ArrowUpRight className="ml-1 h-4 w-4" />
+      <a href="#" className="mb-6 inline-flex items-center font-mono-tech text-xs text-gray-600 hover:text-white transition-colors tracking-widest">
+        ВСЕ ТРЕКИ <Icon name="ArrowUpRight" size={12} className="ml-1" />
       </a>
 
-      <div className="mt-auto space-y-4 rounded-xl bg-[#1a1a1a] border border-[#262626] p-4">
-        <div className="flex items-center justify-between rounded-lg bg-[#0f0f0f] border border-[#262626] px-3 py-2.5">
-          <div className="flex items-center gap-3">
-            <Building2 className="h-5 w-5 text-gray-500" />
-            <div>
-              <p className="text-sm font-medium text-white">Операционный счёт</p>
-              <p className="text-xs text-gray-500">Доступно: 1 500 000 ₽</p>
+      <div className="mt-auto border border-[rgba(155,48,255,0.1)] p-4 bg-[#070707] space-y-4">
+        {/* Now playing */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="font-mono-tech text-xs text-gray-600 mb-0.5">NOW_PLAYING</div>
+            <div className="font-mono-tech text-sm text-white tracking-widest">{playlist[activeTrack].title}</div>
+          </div>
+          {playing && (
+            <div className="waveform">
+              {[1,2,3,4,5,6,7].map((b) => (
+                <div key={b} className="waveform-bar" style={{ animationDelay: `${b * 0.07}s` }} />
+              ))}
             </div>
-          </div>
-          <ChevronDown className="h-4 w-4 text-gray-500" />
+          )}
         </div>
 
+        {/* Progress */}
         <div>
-          <label className="mb-2 flex items-center gap-1 text-xs text-gray-400">
-            Введите сумму <Info className="h-3 w-3" />
-          </label>
-          <div className="flex items-center rounded-lg bg-[#0f0f0f] border border-[#262626] px-3 py-2.5">
-            <span className="text-gray-500 mr-2">₽</span>
-            <input
-              type="text"
-              placeholder="0,00"
-              className="flex-1 bg-transparent text-white placeholder-gray-600 outline-none text-sm"
+          <div className="w-full h-px bg-[#1a1a1a] relative mb-1 cursor-pointer">
+            <div
+              className="absolute top-0 left-0 h-full transition-all duration-300"
+              style={{ width: `${progress}%`, background: "var(--accent-color)", boxShadow: "0 0 8px var(--accent-glow)" }}
             />
           </div>
-        </div>
-
-        <div>
-          <label className="mb-2 flex items-center gap-1 text-xs text-gray-400">
-            Назначение платежа <span className="text-violet-400">*</span> (Необязательно)
-          </label>
-          <div className="relative">
-            <textarea
-              placeholder="Сообщение для получателя..."
-              className="w-full rounded-lg bg-[#0f0f0f] border border-[#262626] px-3 py-2.5 text-sm text-white placeholder-gray-600 outline-none resize-none h-16"
-            />
-            <span className="absolute bottom-2 right-2 text-xs text-gray-600">0/200</span>
+          <div className="flex justify-between font-mono-tech text-xs text-gray-700">
+            <span>01:33</span>
+            <span>{playlist[activeTrack].duration}</span>
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-2">
-          <Switch className="data-[state=checked]:bg-violet-600" />
-          <span className="text-sm text-gray-400">Регулярный платёж</span>
+        {/* Controls */}
+        <div className="flex items-center justify-between">
+          <button
+            className="font-mono-tech text-xs text-gray-600 hover:text-white transition-colors tracking-widest"
+            onClick={() => setActiveTrack((p) => Math.max(0, p - 1))}
+          >
+            {"<<"} PREV
+          </button>
+          <button
+            className="flex items-center justify-center w-10 h-10 border transition-all duration-300"
+            style={{
+              borderColor: "rgba(155,48,255,0.5)",
+              background: playing ? "rgba(155,48,255,0.2)" : "transparent",
+              boxShadow: playing ? "0 0 20px rgba(155,48,255,0.3)" : "none",
+            }}
+            onClick={() => setPlaying((p) => !p)}
+          >
+            <Icon name={playing ? "Pause" : "Play"} size={14} className="text-white" style={{ color: "var(--accent-color)" } as React.CSSProperties} />
+          </button>
+          <button
+            className="font-mono-tech text-xs text-gray-600 hover:text-white transition-colors tracking-widest"
+            onClick={() => setActiveTrack((p) => Math.min(playlist.length - 1, p + 1))}
+          >
+            NEXT {">>"}
+          </button>
+        </div>
+
+        {/* Track list */}
+        <div className="pt-2 border-t border-dashed border-[#1a1a1a] space-y-1">
+          {playlist.map((track, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-between cursor-pointer group py-1"
+              onClick={() => { setActiveTrack(idx); setProgress(0) }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="font-mono-tech text-xs text-gray-700 w-4">{String(idx + 1).padStart(2, "0")}</span>
+                <span className={`font-mono-tech text-xs tracking-widest transition-colors ${idx === activeTrack ? "text-white" : "text-gray-600 group-hover:text-gray-400"}`}>
+                  {track.title}
+                </span>
+              </div>
+              <span className="font-mono-tech text-xs" style={{ color: idx === activeTrack ? "var(--accent-color)" : "#444" }}>
+                {track.duration}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -1,59 +1,52 @@
-import { Building2, ArrowUpRight, Plus } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import Icon from "@/components/ui/icon"
 
-const recipients = [
-  { name: "Алексей Петров", info: "alexey@finpotok.ru", code: "P-52112", image: "/professional-man-portrait.png" },
-  { name: "Мария Иванова", info: "+7 (495) 123-45-67", code: "P-52132", image: "/professional-woman-portrait.png" },
-  { name: "Елена Смирнова", info: "elena@finpotok.ru", code: "P-52184", initials: "ЕС", color: "bg-teal-600" },
-  { name: "Дмитрий Козлов", info: "+7 (812) 987-65-43", code: "P-52114", initials: "ДК", color: "bg-amber-600" },
+const merch = [
+  { name: "OVERSIZED TEE «OBSIDIAN»", price: "3 500 ₽", status: "В НАЛИЧИИ", color: "bg-gray-800" },
+  { name: "ХУДИ «RITUAL_v2»", price: "6 200 ₽", status: "LAST 3", color: "bg-purple-900" },
+  { name: "КЕПКА «GLITCH»", price: "2 100 ₽", status: "В НАЛИЧИИ", color: "bg-gray-800" },
+  { name: "ВИНИЛОВАЯ ПЛАСТИНКА", price: "4 800 ₽", status: "SOLD OUT", color: "bg-red-900" },
 ]
 
 export function LinkAccountsCard() {
   return (
-    <div className="rounded-2xl bg-[#141414] border border-[#262626] p-6 flex flex-col">
-      <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[#1f1f1f] border border-[#2a2a2a]">
-        <Building2 className="h-5 w-5 text-gray-400" />
+    <div className="card-obsidian rounded-none p-6 flex flex-col">
+      <div className="mb-6 flex h-12 w-12 items-center justify-center border border-[rgba(155,48,255,0.3)]"
+        style={{ boxShadow: "0 0 15px rgba(155,48,255,0.15)" }}>
+        <Icon name="ShoppingBag" size={18} className="text-gray-400" />
       </div>
 
-      <h3 className="mb-2 text-lg font-semibold text-white">Объедините все счета</h3>
-      <p className="mb-4 text-sm text-gray-400">Подключите банки, кошельки и карты, чтобы видеть все балансы в одном окне</p>
+      <div className="font-mono-tech text-xs tracking-widest mb-2" style={{ color: "var(--accent-color)" }}>
+        // MERCH_STORE
+      </div>
+      <h3 className="mb-2 font-display text-xl font-bold text-white">Мерч</h3>
+      <p className="mb-4 font-mono-tech text-xs text-gray-600 leading-relaxed">
+        Одежда снята со вспышкой «в лоб» — как в криминальной хронике. Носи тьму.
+      </p>
 
-      <a href="#" className="mb-6 inline-flex items-center text-sm text-gray-400 hover:text-white transition-colors">
-        Подробнее <ArrowUpRight className="ml-1 h-4 w-4" />
+      <a href="#" className="mb-6 inline-flex items-center font-mono-tech text-xs text-gray-600 hover:text-white transition-colors tracking-widest">
+        СМОТРЕТЬ ВСЁ <Icon name="ArrowUpRight" size={12} className="ml-1" />
       </a>
 
-      <div className="mt-auto space-y-2 rounded-xl bg-[#1a1a1a] border border-[#262626] p-3">
-        {recipients.map((recipient, index) => (
-          <div key={index} className="flex items-center justify-between rounded-lg bg-[#0f0f0f] px-3 py-2">
+      <div className="mt-auto space-y-1.5 border border-[rgba(155,48,255,0.1)] p-3 bg-[#070707]">
+        {merch.map((item, index) => (
+          <div key={index} className="group flex items-center justify-between bg-[#0d0d0d] px-3 py-2.5 hover:bg-[rgba(155,48,255,0.05)] transition-colors cursor-pointer">
             <div className="flex items-center gap-3">
-              <Avatar className="h-9 w-9">
-                {recipient.image ? (
-                  <AvatarImage src={recipient.image || "/placeholder.svg"} alt={recipient.name} />
-                ) : null}
-                <AvatarFallback className={`${recipient.color || "bg-gray-600"} text-white text-xs`}>
-                  {recipient.initials ||
-                    recipient.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <p className="text-sm font-medium text-white">{recipient.name}</p>
-                <p className="text-xs text-gray-500">{recipient.info}</p>
+              <div className={`h-8 w-8 ${item.color} flex items-center justify-center`}>
+                <Icon name="Package" size={12} className="text-gray-400" />
               </div>
+              <span className="font-mono-tech text-xs text-gray-400 group-hover:text-white transition-colors">{item.name}</span>
             </div>
-            <span className="text-xs text-gray-500">{recipient.code}</span>
+            <div className="flex items-center gap-3">
+              <span
+                className="font-mono-tech text-xs"
+                style={{ color: item.status === "SOLD OUT" ? "#666" : item.status === "LAST 3" ? "#ff6b35" : "var(--accent-color)" }}
+              >
+                {item.status}
+              </span>
+              <span className="font-mono-tech text-xs text-gray-600">{item.price}</span>
+            </div>
           </div>
         ))}
-
-        <Button
-          variant="ghost"
-          className="w-full justify-center text-gray-500 hover:text-white hover:bg-[#1f1f1f] mt-2"
-        >
-          <Plus className="mr-2 h-4 w-4" /> Новый получатель
-        </Button>
       </div>
     </div>
   )
